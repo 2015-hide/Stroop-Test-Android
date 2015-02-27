@@ -23,6 +23,9 @@ public class StroopTestsActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stroop_tests);
 
+        // Hides the action bar that displays the activity title.
+        getSupportActionBar().hide();
+
         transparentCard = R.drawable.transparent;
         currentCard = 0;
 
