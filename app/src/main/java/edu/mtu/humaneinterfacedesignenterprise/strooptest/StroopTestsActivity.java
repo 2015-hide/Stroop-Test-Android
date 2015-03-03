@@ -34,7 +34,7 @@ public class StroopTestsActivity extends ActionBarActivity {
         if (intent != null) {
             boolean test = intent.getBooleanExtra(StroopActivity.class.getName(), true);
 
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
 
             transparentCard = R.drawable.transparent;
             stroopView = (ImageView) findViewById(R.id.stroopView);
