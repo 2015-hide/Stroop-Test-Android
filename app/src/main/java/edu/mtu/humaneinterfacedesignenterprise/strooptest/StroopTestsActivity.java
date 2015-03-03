@@ -1,11 +1,11 @@
 package edu.mtu.humaneinterfacedesignenterprise.strooptest;
 
-import android.graphics.drawable.Drawable;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
@@ -15,7 +15,6 @@ public class StroopTestsActivity extends ActionBarActivity {
 
     private ArrayList<Integer> cards;
     private int transparentCard;
-    private int currentCard;
     private ImageView stroopView;
 
     @Override
@@ -23,115 +22,113 @@ public class StroopTestsActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stroop_tests);
 
-        transparentCard = R.drawable.transparent;
-        currentCard = 0;
+        getSupportActionBar().hide();
 
-        generateCardsList();
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        // TODO: Get the intent and figure out from what it sent which test it is, then call that method.
+        Intent intent = getIntent();
 
-        stroopView = (ImageView) findViewById(R.id.stroopView);
-    }
+        if (intent != null) {
+            boolean test = intent.getBooleanExtra(StroopActivity.class.getName(), true);
 
-    private void fourtyKMPerHour() {
-        if (cards == null) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+            transparentCard = R.drawable.transparent;
+            stroopView = (ImageView) findViewById(R.id.stroopView);
             generateCardsList();
-        }
 
-        double[] times = new double[12];
-
-        times[0] = 48.115; // time from start of simulator to the middle of first 2 signs
-
-        /* Generate times from start stroop cards should appear. */
-        for (int inc = 1; inc < times.length; ++inc) {
-            if (inc == 6) {
-                times[inc] = times[inc - 1] + 16.95; // To get cards closer to sign
+            if (test) {
+                test40KM();
             }
+
             else {
-                times[inc] = times[inc - 1] + 12.95; // Time between each sign
+                test60KM();
             }
-        }
-
-        Handler mHandler = new Handler();
-
-        // Set up events to run to display the cards in succession after a
-        // period of time.
-        for (int i = 0; i < times.length; ++i) {
-            // Stroop card.
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    updateDisplay();
-                }
-            }, (int)(times[i] * 1000.));
-
-            // Transparent card
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    updateDisplay();
-                }
-            }, (int)((times[i] + 3) * 1000.));
         }
     }
 
-    private void sixtyKMPerHour() {
-        if (cards == null) {
-            generateCardsList();
-        }
+    private void test40KM() {
+        final Handler handler = new Handler();
 
-        double[] times = new double[12];
+        Runnable runnable = new Runnable() {
+            int i = 0;
 
-        times[0] = 23.5;
+            public void run() {
+                stroopView.setImageResource(cards.get(i));
+                int timing;
 
-        /* Generate times from start stroop cards should appear. */
-        for (int inc = 1; inc < times.length; ++inc) {
-            if (inc == 6) {
-                times[inc] = times[inc - 1] + 10.5;
-            }
-            else {
-                times[inc] = times[inc - 1] + 9;
-            }
-        }
-
-        Handler mHandler = new Handler();
-
-        // Set up events to run to display the cards in succession after a
-        // period of time.
-        for (int i = 0; i < times.length; ++i) {
-            // Stroop card.
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    updateDisplay();
+                if (i == 0) {
+                    timing = 35000;
                 }
-            }, (int)(times[i] * 1000.));
 
-            // Transparent card
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    updateDisplay();
+                else if (i == 24) {
+                    return;
                 }
-            }, (int)((times[i] + 3) * 1000.));
-        }
+
+                else if (i == 12) {
+                    timing = 15000;
+                }
+
+                else if ((i & 1) == 0) { // even
+                    timing = 11000;
+                }
+
+                else { // odd
+                    timing = 3000;
+                }
+
+                i++;
+
+                handler.postDelayed(this, timing); // Set up next card to appear at the determined time.
+            }
+        };
+
+        handler.postDelayed(runnable, 0); // Initial delay before the start - 0 ms.
     }
 
-    private void updateDisplay() {
-        if (cards == null || stroopView == null) {
-            return;
-        }
+    private void test60KM() {
+        final Handler handler = new Handler();
 
-        if (currentCard == cards.size() || currentCard < 0) {
-            currentCard = 0;
-        }
+        Runnable runnable = new Runnable() {
+            int i = 0;
 
-        stroopView.setImageResource(cards.get(currentCard));
+            public void run() {
+                stroopView.setImageResource(cards.get(i));
+                int timing;
+
+                if (i == 0) {
+                    timing = 23500;
+                }
+
+                else if (i == 24) {
+                    return;
+                }
+
+                else if (i == 12) {
+                    timing = 7500;
+                }
+
+                else if ((i & 1) == 0) { // even
+                    timing = 6000;
+                }
+
+                else {
+                    timing = 3000;
+                }
+
+                i++;
+
+                handler.postDelayed(this, timing); // Set up next card to appear at the determined time.
+            }
+        };
+
+        handler.postDelayed(runnable, 0); // Initial delay before the start - 0 ms.
     }
 
     private void generateCardsList() {
         cards = new ArrayList<Integer>();
 
+        cards.add(transparentCard);
         cards.add(R.drawable.one);
         cards.add(transparentCard);
         cards.add(R.drawable.two);
