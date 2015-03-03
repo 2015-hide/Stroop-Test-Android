@@ -3,6 +3,7 @@
 
     <string name="app_name">Stroop Test</string>
     <string name="title_activity_stroop_tests">Stroop Tests</string>
+    <string name="logo">HIDE Logo</string>
     <string name="stroop_card">Stroop Card</string>
     <string name="KM60">"60 KM/HR</string>
     <string name="KM40">"40 KM/HR</string>
