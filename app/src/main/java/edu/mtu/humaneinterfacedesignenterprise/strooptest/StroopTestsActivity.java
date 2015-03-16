@@ -57,22 +57,25 @@ public class StroopTestsActivity extends ActionBarActivity {
             int i = 0;
 
             public void run() {
+                if (i == 25) {
+                    // goes back to main menu
+                    startActivity(new Intent(this, StroopActivity.class));
+                    return;
+                }
+                
                 stroopView.setImageResource(cards.get(i));
+                
                 int timing;
 
                 if (i == 0) {
                     timing = 35000;
                 }
 
-                else if (i == 24) {
-                    return;
-                }
-
                 else if (i == 12) {
                     timing = 15000;
                 }
 
-                else if ((i & 1) == 0) { // even
+                else if ((i & 1) == 0) { // even - sets up time for next stroop card
                     timing = 11000;
                 }
 
@@ -96,15 +99,17 @@ public class StroopTestsActivity extends ActionBarActivity {
             int i = 0;
 
             public void run() {
+                if (i == 25) {
+                    startActivity(new Intent(this, StroopActivity.class));
+                    return;
+                }
+                
                 stroopView.setImageResource(cards.get(i));
+                
                 int timing;
 
                 if (i == 0) {
                     timing = 23500;
-                }
-
-                else if (i == 24) {
-                    return;
                 }
 
                 else if (i == 12) {
