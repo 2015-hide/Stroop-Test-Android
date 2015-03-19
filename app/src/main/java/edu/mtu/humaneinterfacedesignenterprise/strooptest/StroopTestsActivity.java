@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.content.Context;
 
 import java.util.ArrayList;
 
@@ -16,7 +17,7 @@ public class StroopTestsActivity extends ActionBarActivity {
     private ArrayList<Integer> cards;
     private int transparentCard;
     private ImageView stroopView;
-
+    final Context context = this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +60,7 @@ public class StroopTestsActivity extends ActionBarActivity {
             public void run() {
                 if (i == 25) {
                     // goes back to main menu
-                    startActivity(new Intent(this, StroopActivity.class));
+                    startActivity(new Intent(context, StroopActivity.class));
                     return;
                 }
                 
@@ -100,7 +101,7 @@ public class StroopTestsActivity extends ActionBarActivity {
 
             public void run() {
                 if (i == 25) {
-                    startActivity(new Intent(this, StroopActivity.class));
+                    startActivity(new Intent(context, StroopActivity.class));
                     return;
                 }
                 
