@@ -14,10 +14,10 @@ import java.util.ArrayList;
 
 public class StroopTestsActivity extends ActionBarActivity {
 
-    private ArrayList<Integer> cards;
+    private int[] cards;
     private int transparentCard;
     private ImageView stroopView;
-    final Context context = this;
+    private final Context context = this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,11 +35,12 @@ public class StroopTestsActivity extends ActionBarActivity {
         if (intent != null) {
             boolean test = intent.getBooleanExtra(StroopActivity.class.getName(), true);
 
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
-
             transparentCard = R.drawable.transparent;
             stroopView = (ImageView) findViewById(R.id.stroopView);
-            generateCardsList();
+
+            if (cards == null) {
+                generateCardsList();
+            }
 
             if (test) {
                 test40KM();
@@ -52,23 +53,24 @@ public class StroopTestsActivity extends ActionBarActivity {
     }
 
     private void test40KM() {
+        System.gc();
+
         final Handler handler = new Handler();
 
         Runnable runnable = new Runnable() {
-            int i = 0;
+            volatile int i = 0;
 
             public void run() {
-                if (i > 25) {
-                    return;
-                }
+                System.out.println("HERE " + i);
 
                 if (i == 25) {
                     // goes back to main menu
                     startActivity(new Intent(context, StroopActivity.class));
+                    finish();
                     return;
                 }
                 
-                stroopView.setImageResource(cards.get(i));
+                stroopView.setImageResource(cards[i]);
                 
                 int timing;
 
@@ -88,11 +90,9 @@ public class StroopTestsActivity extends ActionBarActivity {
                     timing = 3000;
                 }
 
-                i++;
+                ++i;
 
-                if (i < 25) {
-                    handler.postDelayed(this, timing); // Set up next card to appear at the determined time.
-                }
+                handler.postDelayed(this, timing); // Set up next card to appear at the determined time.
             }
         };
 
@@ -100,22 +100,21 @@ public class StroopTestsActivity extends ActionBarActivity {
     }
 
     private void test60KM() {
+        System.gc();
+
         final Handler handler = new Handler();
 
         Runnable runnable = new Runnable() {
-            int i = 0;
+            volatile int i = 0;
 
             public void run() {
-                if (i > 25) {
-                    return;
-                }
-
                 if (i == 25) {
                     startActivity(new Intent(context, StroopActivity.class));
+                    finish();
                     return;
                 }
                 
-                stroopView.setImageResource(cards.get(i));
+                stroopView.setImageResource(cards[i]);
                 
                 int timing;
 
@@ -135,11 +134,9 @@ public class StroopTestsActivity extends ActionBarActivity {
                     timing = 3000;
                 }
 
-                i++;
+                ++i;
 
-                if (i < 25) {
-                    handler.postDelayed(this, timing); // Set up next card to appear at the determined time.
-                }
+                handler.postDelayed(this, timing); // Set up next card to appear at the determined time.
             }
         };
 
@@ -147,33 +144,33 @@ public class StroopTestsActivity extends ActionBarActivity {
     }
 
     private void generateCardsList() {
-        cards = new ArrayList<Integer>();
+        cards = new int[25];
 
-        cards.add(transparentCard);
-        cards.add(R.drawable.one);
-        cards.add(transparentCard);
-        cards.add(R.drawable.two);
-        cards.add(transparentCard);
-        cards.add(R.drawable.three);
-        cards.add(transparentCard);
-        cards.add(R.drawable.four);
-        cards.add(transparentCard);
-        cards.add(R.drawable.five);
-        cards.add(transparentCard);
-        cards.add(R.drawable.six);
-        cards.add(transparentCard);
-        cards.add(R.drawable.seven);
-        cards.add(transparentCard);
-        cards.add(R.drawable.eight);
-        cards.add(transparentCard);
-        cards.add(R.drawable.nine);
-        cards.add(transparentCard);
-        cards.add(R.drawable.ten);
-        cards.add(transparentCard);
-        cards.add(R.drawable.eleven);
-        cards.add(transparentCard);
-        cards.add(R.drawable.twelve);
-        cards.add(transparentCard);
+        cards[0] = (transparentCard);
+        cards[1] = (R.drawable.one);
+        cards[2] = (transparentCard);
+        cards[3] = (R.drawable.two);
+        cards[4] = (transparentCard);
+        cards[5] = (R.drawable.three);
+        cards[6] = (transparentCard);
+        cards[7] = (R.drawable.four);
+        cards[8] = (transparentCard);
+        cards[9] = (R.drawable.five);
+        cards[10] = (transparentCard);
+        cards[11] = (R.drawable.six);
+        cards[12] = (transparentCard);
+        cards[13] = (R.drawable.seven);
+        cards[14] = (transparentCard);
+        cards[15] = (R.drawable.eight);
+        cards[16] = (transparentCard);
+        cards[17] = (R.drawable.nine);
+        cards[18] = (transparentCard);
+        cards[19] = (R.drawable.ten);
+        cards[20] = (transparentCard);
+        cards[21] = (R.drawable.eleven);
+        cards[22] = (transparentCard);
+        cards[23] = (R.drawable.twelve);
+        cards[24] = (transparentCard);
     }
 
 
