@@ -58,6 +58,10 @@ public class StroopTestsActivity extends ActionBarActivity {
             int i = 0;
 
             public void run() {
+                if (i > 25) {
+                    return;
+                }
+
                 if (i == 25) {
                     // goes back to main menu
                     startActivity(new Intent(context, StroopActivity.class));
@@ -86,7 +90,9 @@ public class StroopTestsActivity extends ActionBarActivity {
 
                 i++;
 
-                handler.postDelayed(this, timing); // Set up next card to appear at the determined time.
+                if (i < 25) {
+                    handler.postDelayed(this, timing); // Set up next card to appear at the determined time.
+                }
             }
         };
 
@@ -100,6 +106,10 @@ public class StroopTestsActivity extends ActionBarActivity {
             int i = 0;
 
             public void run() {
+                if (i > 25) {
+                    return;
+                }
+
                 if (i == 25) {
                     startActivity(new Intent(context, StroopActivity.class));
                     return;
@@ -127,7 +137,9 @@ public class StroopTestsActivity extends ActionBarActivity {
 
                 i++;
 
-                handler.postDelayed(this, timing); // Set up next card to appear at the determined time.
+                if (i < 25) {
+                    handler.postDelayed(this, timing); // Set up next card to appear at the determined time.
+                }
             }
         };
 
