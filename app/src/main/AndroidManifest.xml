@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".StroopActivity"
+            android:name="edu.mtu.hide.strooptest.StroopActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".StroopTestsActivity"
+            android:name="edu.mtu.hide.strooptest.StroopTestsActivity"
             android:label="@string/title_activity_stroop_tests" >
         </activity>
     </application>
